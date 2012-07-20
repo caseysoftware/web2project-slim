@@ -24,6 +24,9 @@ class APIWrapper {
         return exportJSON($this->object);
     }
 
+    /*
+     * It's easy to know which modules this module/object is dependent on.
+     */
     protected function setSuperResources()
     {
 //These are the supraresources for projects
@@ -31,6 +34,11 @@ class APIWrapper {
         $this->supraresources[] = 'users';
     }
 
+    /*
+     * .. but how do we figure out which modules/objects are dependent on it?
+     * 
+     * Do we need a hook_register?
+     */
     protected function setSubResources()
     {
 //These are the subresources for projects
