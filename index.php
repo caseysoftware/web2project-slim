@@ -10,6 +10,7 @@ require_once W2P_BASE_DIR . '/includes/main_functions.php';
 require_once W2P_BASE_DIR . '/includes/db_adodb.php';
 
 include 'functions.php';
+include 'apiwrapper.class.php';
 
 $app = new Slim(
             array('debug' => true)
@@ -25,9 +26,9 @@ $app->get('/:module/:id', function($module, $id) {
 
     $obj = new $classname;
     $obj->load($id);
-
+    $api = new APIWrapper($obj);
     
-    echo exportJSON($obj);
+    echo $api->getObjectExport();
 //TODO: process the object and turn it into the xml/json object as needed
 //TODO: figure out how to not the sub-resources and/or super resources
 });
