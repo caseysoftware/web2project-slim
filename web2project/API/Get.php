@@ -1,30 +1,52 @@
 <?php
 
-class web2project_API_Get {
+/*
+ * Sample urls:
+ *      projects/
+ *      projects/283
+ *      projects/limit/10
+ *      projects/limit/10/page/3
+ *      projects/page/2/limit/5
+ */
 
-    protected $app         = null;
-    protected $module   = null;
-    protected $id       = 0;
+class web2project_API_Get extends web2project_API_Base {
 
-    public function __construct($app, $module, $id)
+    protected function _parseParameters()
     {
-        $this->id       = $id;
-        $this->app      = $app;
-        $this->module   = $module;
+        switch(count($this->more)) {
+            case 0:
+                $this->params['limit'] = 25;
+                $this->params['page']  = 0;
+                break;
+            case 1:
+                $this->id = (int) $this->more[0];
+                break;
+            default:
+//TODO: process a series of elements
+        }
     }
-
+    
     public function process()
     {
-        $classname = getClassName($this->module);
-        $key = unPluralize($this->module).'_id';
+        switch(count($this->more)) {
+            case 1:
+                $this->obj->load($this->id);
+                break;
+            default:
+                $this->obj->{$this->key} = -1;
+//TODO: load a list of objects from the params
+//TODO: implement pagination in the core object
 
-        $obj = new $classname;
-        $obj->load($this->id);
+                $this->obj->count = -1;
+                $this->obj->prev = 'prev page';
+                $this->obj->next = 'next page';
+        }
 
-        if(is_null($obj->$key)) {
+        if(is_null($this->obj->{$this->key})) {
             $this->app->response()->status(404);
         } else {
-            $api = new web2project_API_Wrapper($obj);
+            $this->obj->this = '/'.$this->module.'/'.implode('/', $this->more);
+            $api = new web2project_API_Wrapper($this->obj);
             $this->app->response()->body($api->getObjectExport());
         }
 
