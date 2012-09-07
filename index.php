@@ -16,19 +16,8 @@ $GLOBALS['acl'] = new w2p_Mocks_Permissions();
  * Sample: projects/283
  */
 $app->get('/:module(/:id)', function($module, $id = 0) use ($app) {
-
-    $classname = getClassName($module);
-    $key = unPluralize($module).'_id';
-
-    $obj = new $classname;
-    $obj->load($id);
-
-    if(is_null($obj->$key)) {
-        $app->response()->status(404);
-    } else {
-        $api = new web2project_API_Wrapper($obj);
-        echo $api->getObjectExport()."\n";
-    }
+    $get = new web2project_API_Get($app, $module, $id);
+    $app = $get->process();
 });
 
 /*
