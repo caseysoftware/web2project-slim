@@ -17,16 +17,19 @@ $app = new Slim(
         );
 
 //TODO: figure out authentication
+$GLOBALS['acl'] = new w2p_Mocks_Permissions();
 
 /*
  * Sample: projects/283
  */
 $app->get('/:module/:id', function($module, $id) {
     $classname = getClassName($module);
+    $key = unPluralize($module).'_id';
 
     $obj = new $classname;
     $obj->load($id);
-    if(is_null($obj->{$module.'_id'})) {
+
+    if(is_null($obj->$key)) {
 //TODO: set 404 header and return because the item wasn't found
     } else {
         $api = new APIWrapper($obj);
@@ -38,8 +41,10 @@ $app->get('/:module/:id', function($module, $id) {
  * Sample: projects
  */
 $app->post('/:module', function($module) {
-    $classname = getClassName($module);
+//TODO: I hate using this global.. no solution offhand atm.
+    global $app;
 
+    $classname = getClassName($module);
     $allPostParams = $app->request()->post();
 
     $obj = new $classname;
@@ -48,8 +53,10 @@ $app->post('/:module', function($module) {
 
     if ($result) {
 //TODO: if success, return the 200 along with the new path
+echo "success \n\n";
     } else {
 //TODO: if failure, return the corresponding 400 along with the error messages
+echo "fail \n\n";
     }
 });
 
@@ -57,20 +64,29 @@ $app->post('/:module', function($module) {
  * Sample: projects/283
  */
 $app->put('/:module/:id', function($module, $id) {
+//TODO: I hate using this global.. no solution offhand atm.
+    global $app;
+
     $classname = getClassName($module);
+    $key = unPluralize($module).'_id';
 
     $allPostParams = $app->request()->post();
 
     $obj = new $classname;
     $obj->load($id);
-    $obj->bind($allPostParams);
-    $result = $obj->store();
-
-    if ($result) {
-//TODO: if success, return the 200 along with the new path
+    if(is_null($obj->$key)) {
+//TODO: set 404 header and return because the item wasn't found
     } else {
-//TODO: if failure, return the corresponding 400 along with the error messages
+        $obj->bind($allPostParams);
+        $result = $obj->store();
+
+        if ($result) {
+//TODO: if success, return the 200 along with the new path
+        } else {
+//TODO: if failure, return the corresponding 401 or 404 along with the error messages
+        }
     }
+
 });
 
 /*
@@ -79,15 +95,20 @@ $app->put('/:module/:id', function($module, $id) {
 $app->delete('/:module/:id', function($module, $id) {
     $classname = getClassName($module);
 
-    $allPostParams = $app->request()->post();
-
     $obj = new $classname;
     $result = $obj->delete($id);
 
     if ($result) {
-//TODO: if success, return the 200 along with the new path
+//TODO: if success, return the 204 along with the new path
+        echo "it worked! \n\n";
     } else {
+        $errors = $obj->getError();
+
+        if (isset($errors['noDeletePermission'])) {
+//TODO: if failure, return the 401
+        } else {
 //TODO: if failure, return the corresponding 400 along with the error messages
+        }
     }
 });
 
@@ -97,6 +118,7 @@ $app->delete('/:module/:id', function($module, $id) {
 $app->options('/:module', function($module) {
     $classname = getClassName($module);
 
+echo "this is an option request! \n\n";
 //TODO: display the resource properties and/or interaction methods
 });
 
