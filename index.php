@@ -1,15 +1,10 @@
 <?php
 
-$slim_folder = '../Slim/';
-require $slim_folder.'Slim/Slim.php';
-
+//NOTE: This must be configured manually:
 $web2project_folder = '../web2project';
-require_once $web2project_folder.'/base.php';
-require_once W2P_BASE_DIR . '/includes/config.php';
-require_once W2P_BASE_DIR . '/includes/main_functions.php';
-require_once W2P_BASE_DIR . '/includes/db_adodb.php';
 
-include 'functions.php';
+include_once 'web2project/web2project.php';
+
 include 'apiwrapper.class.php';
 
 $app = new Slim(
@@ -22,7 +17,10 @@ $GLOBALS['acl'] = new w2p_Mocks_Permissions();
 /*
  * Sample: projects/283
  */
-$app->get('/:module/:id', function($module, $id) {
+$app->get('/:module(/:id)', function($module, $id = 0) {
+//TODO: I hate using this global.. no solution offhand atm.
+    global $app;
+
     $classname = getClassName($module);
     $key = unPluralize($module).'_id';
 
@@ -30,10 +28,10 @@ $app->get('/:module/:id', function($module, $id) {
     $obj->load($id);
 
     if(is_null($obj->$key)) {
-//TODO: set 404 header and return because the item wasn't found
+        $app->response()->status(404);
     } else {
         $api = new APIWrapper($obj);
-        echo $api->getObjectExport();
+        echo $api->getObjectExport()."\n";
     }
 });
 
