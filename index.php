@@ -15,9 +15,7 @@ $GLOBALS['acl'] = new w2p_Mocks_Permissions();
 /*
  * Sample: projects/283
  */
-$app->get('/:module(/:id)', function($module, $id = 0) {
-//TODO: I hate using this global.. no solution offhand atm.
-    global $app;
+$app->get('/:module(/:id)', function($module, $id = 0) use ($app) {
 
     $classname = getClassName($module);
     $key = unPluralize($module).'_id';
@@ -36,9 +34,7 @@ $app->get('/:module(/:id)', function($module, $id = 0) {
 /*
  * Sample: projects
  */
-$app->post('/:module', function($module) {
-//TODO: I hate using this global.. no solution offhand atm.
-    global $app;
+$app->post('/:module', function($module) use ($app) {
 
     $classname = getClassName($module);
     $allPostParams = $app->request()->post();
@@ -59,9 +55,7 @@ echo "fail \n\n";
 /*
  * Sample: projects/283
  */
-$app->put('/:module/:id', function($module, $id) {
-//TODO: I hate using this global.. no solution offhand atm.
-    global $app;
+$app->put('/:module/:id', function($module, $id) use ($app) {
 
     $classname = getClassName($module);
     $key = unPluralize($module).'_id';
