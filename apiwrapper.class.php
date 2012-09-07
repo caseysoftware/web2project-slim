@@ -17,6 +17,7 @@ class APIWrapper {
 
     public function getObjectExport()
     {
+//TODO: figure out how to auto-determine the sub-resources and/or super resources
         $supra = array_flip($this->supraresources);
         $sub = array_flip($this->subresources);
         $this->object->links = (array_keys($supra + $sub));
