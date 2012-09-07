@@ -1,6 +1,6 @@
 <?php
 
-class APIWrapper {
+class web2project_API_Wrapper {
     public $object = null;
     public $classname = '';
 

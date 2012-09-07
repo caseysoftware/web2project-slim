@@ -5,8 +5,6 @@ $web2project_folder = '../web2project';
 
 include_once 'web2project/web2project.php';
 
-include 'apiwrapper.class.php';
-
 $app = new Slim(
             array('debug' => true)
         );
@@ -30,7 +28,7 @@ $app->get('/:module(/:id)', function($module, $id = 0) {
     if(is_null($obj->$key)) {
         $app->response()->status(404);
     } else {
-        $api = new APIWrapper($obj);
+        $api = new web2project_API_Wrapper($obj);
         echo $api->getObjectExport()."\n";
     }
 });
