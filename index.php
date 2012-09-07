@@ -26,11 +26,12 @@ $app->get('/:module/:id', function($module, $id) {
 
     $obj = new $classname;
     $obj->load($id);
-    $api = new APIWrapper($obj);
-    
-    echo $api->getObjectExport();
-//TODO: process the object and turn it into the xml/json object as needed
-//TODO: figure out how to not the sub-resources and/or super resources
+    if(is_null($obj->{$module.'_id'})) {
+//TODO: set 404 header and return because the item wasn't found
+    } else {
+        $api = new APIWrapper($obj);
+        echo $api->getObjectExport();
+    }
 });
 
 /*
@@ -44,9 +45,12 @@ $app->post('/:module', function($module) {
     $obj = new $classname;
     $obj->bind($allPostParams);
     $result = $obj->store();
-//TODO: take the $result and detect if it was success or failure
+
+    if ($result) {
 //TODO: if success, return the 200 along with the new path
+    } else {
 //TODO: if failure, return the corresponding 400 along with the error messages
+    }
 });
 
 /*
@@ -61,9 +65,12 @@ $app->put('/:module/:id', function($module, $id) {
     $obj->load($id);
     $obj->bind($allPostParams);
     $result = $obj->store();
-//TODO: take the $result and detect if it was success or failure
+
+    if ($result) {
 //TODO: if success, return the 200 along with the new path
+    } else {
 //TODO: if failure, return the corresponding 400 along with the error messages
+    }
 });
 
 /*
@@ -76,9 +83,12 @@ $app->delete('/:module/:id', function($module, $id) {
 
     $obj = new $classname;
     $result = $obj->delete($id);
-//TODO: take the $result and detect if it was success or failure
+
+    if ($result) {
 //TODO: if success, return the 200 along with the new path
+    } else {
 //TODO: if failure, return the corresponding 400 along with the error messages
+    }
 });
 
 /*
