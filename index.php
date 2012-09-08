@@ -18,58 +18,19 @@ $app->get('/:module/(:id)', function($module, $id = 0) use ($app) {
 });
 
 $app->post('/:module', function($module) use ($app) {
-    $post = new web2project_API_Post($app, $module, $id);
+    $post = new web2project_API_Post($app, $module);
     $app = $post->process();
 });
 
-/*
- * Sample: projects/283
- */
 $app->put('/:module/:id', function($module, $id) use ($app) {
-
-    $classname = getClassName($module);
-    $key = unPluralize($module).'_id';
-
-    $allPostParams = $app->request()->post();
-
-    $obj = new $classname;
-    $obj->load($id);
-    if(is_null($obj->$key)) {
-//TODO: set 404 header and return because the item wasn't found
-    } else {
-        $obj->bind($allPostParams);
-        $result = $obj->store();
-
-        if ($result) {
-//TODO: if success, return the 200 along with the new path
-        } else {
-//TODO: if failure, return the corresponding 401 or 404 along with the error messages
-        }
-    }
-
+    $put = new web2project_API_Put($app, $module, $id);
+    $app = $put->process();
 });
 
-/*
- * Sample: projects/283
- */
-$app->delete('/:module/:id', function($module, $id) {
-    $classname = getClassName($module);
 
-    $obj = new $classname;
-    $result = $obj->delete($id);
-
-    if ($result) {
-//TODO: if success, return the 204 along with the new path
-        echo "it worked! \n\n";
-    } else {
-        $errors = $obj->getError();
-
-        if (isset($errors['noDeletePermission'])) {
-//TODO: if failure, return the 401
-        } else {
-//TODO: if failure, return the corresponding 400 along with the error messages
-        }
-    }
+$app->delete('/:module/:id', function($module, $id) use ($app) {
+    $delete = new web2project_API_Delete($app, $module, $id);
+    $app = $delete->process();
 });
 
 /*
