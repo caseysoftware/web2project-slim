@@ -13,28 +13,28 @@ $app = new Slim(
 $GLOBALS['acl'] = new w2p_Mocks_Permissions();
 
 $app->get('/:module/(:id)', function($module, $id = 0) use ($app) {
-    $get = new web2project_API_Get($app, $module, $id);
-    $app = $get->process();
+    $action = new web2project_API_Get($app, $module, $id);
+    $app = $action->process();
 });
 
 $app->post('/:module', function($module) use ($app) {
-    $post = new web2project_API_Post($app, $module);
-    $app = $post->process();
+    $action = new web2project_API_Post($app, $module);
+    $app = $action->process();
 });
 
 $app->put('/:module/:id', function($module, $id) use ($app) {
-    $put = new web2project_API_Put($app, $module, $id);
-    $app = $put->process();
+    $action = new web2project_API_Put($app, $module, $id);
+    $app = $action->process();
 });
 
 $app->delete('/:module/:id', function($module, $id) use ($app) {
-    $delete = new web2project_API_Delete($app, $module, $id);
-    $app = $delete->process();
+    $action = new web2project_API_Delete($app, $module, $id);
+    $app = $action->process();
 });
 
 $app->options('/:module', function($module) {
-    $options = new web2project_API_Option($app, $module);
-    $app = $options->process();
+    $action = new web2project_API_Option($app, $module);
+    $app = $action->process();
 });
 
 $app->run();
