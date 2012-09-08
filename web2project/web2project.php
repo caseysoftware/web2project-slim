@@ -52,8 +52,3 @@ function unPluralize($word)
     
     return $word;
 }
-
-function exportJSON($object)
-{
-    return json_encode($object);
-}

@@ -22,7 +22,7 @@ class web2project_API_Wrapper {
         $sub = array_flip($this->subresources);
         $this->object->links = (array_keys($supra + $sub));
 
-        return exportJSON($this->object);
+        return json_encode($this->object);
     }
 
     /*
