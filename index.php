@@ -13,30 +13,13 @@ $app = new Slim(
 $GLOBALS['acl'] = new w2p_Mocks_Permissions();
 
 $app->get('/:module/(:id)', function($module, $id = 0) use ($app) {
-
     $get = new web2project_API_Get($app, $module, $id);
     $app = $get->process();
 });
 
-/*
- * Sample: projects
- */
 $app->post('/:module', function($module) use ($app) {
-
-    $classname = getClassName($module);
-    $allPostParams = $app->request()->post();
-
-    $obj = new $classname;
-    $obj->bind($allPostParams);
-    $result = $obj->store();
-
-    if ($result) {
-//TODO: if success, return the 200 along with the new path
-echo "success \n\n";
-    } else {
-//TODO: if failure, return the corresponding 400 along with the error messages
-echo "fail \n\n";
-    }
+    $post = new web2project_API_Post($app, $module, $id);
+    $app = $post->process();
 });
 
 /*
