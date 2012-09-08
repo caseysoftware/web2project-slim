@@ -1,6 +1,6 @@
 <?php
 
-class web2project_API_Base {
+abstract class web2project_API_Base {
 
     protected $app      = null;
     protected $module   = null;
@@ -24,4 +24,6 @@ class web2project_API_Base {
         $this->id       = $id;
         $this->params   = $app->request()->params();
     }
+
+    abstract public function process();
 }
