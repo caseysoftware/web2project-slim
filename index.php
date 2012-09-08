@@ -27,20 +27,14 @@ $app->put('/:module/:id', function($module, $id) use ($app) {
     $app = $put->process();
 });
 
-
 $app->delete('/:module/:id', function($module, $id) use ($app) {
     $delete = new web2project_API_Delete($app, $module, $id);
     $app = $delete->process();
 });
 
-/*
- * Sample: projects
- */
 $app->options('/:module', function($module) {
-    $classname = getClassName($module);
-
-echo "this is an option request! \n\n";
-//TODO: display the resource properties and/or interaction methods
+    $options = new web2project_API_Option($app, $module);
+    $app = $options->process();
 });
 
 $app->run();
