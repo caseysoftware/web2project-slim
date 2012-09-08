@@ -12,7 +12,7 @@ class web2project_API_Base {
     protected $key      = '';
     protected $obj      = '';
 
-    public function __construct($app, $module, $more)
+    public function __construct(Slim $app, $module, $id = 0)
     {
         $this->app      = $app;
         $this->module   = $module;
@@ -21,7 +21,7 @@ class web2project_API_Base {
         $classname      = getClassName($this->module);
         $this->obj      = new $classname;
 
-        $this->more     = $more;
-        $this->_parseParameters();
+        $this->id       = $id;
+        $this->params   = $app->request()->params();
     }
 }
