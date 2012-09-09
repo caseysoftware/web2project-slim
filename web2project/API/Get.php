@@ -22,7 +22,7 @@ class web2project_API_Get extends web2project_API_Base {
             $this->obj->prev = 'prev page';
             $this->obj->next = 'next page';
         } else {
-            $this->obj->load($this->id);
+            $this->obj->loadFull(null, $this->id);
             $this->params['id'] = $this->id;
         }
 
