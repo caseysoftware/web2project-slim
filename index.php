@@ -12,7 +12,7 @@ $app = new Slim(
 //TODO: figure out authentication
 $GLOBALS['acl'] = new w2p_Mocks_Permissions();
 
-$app->get('/:module(/:id)', function($module, $id = 0) use ($app) {
+$app->get('/:module(/(:id))', function($module, $id = 0) use ($app) {
     $action = new web2project_API_Get($app, $module, $id);
     $app = $action->process();
 });
