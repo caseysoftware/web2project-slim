@@ -15,21 +15,21 @@ class web2project_API_Get extends web2project_API_Base {
     {
         $this->params = array_map("intval", $this->params);
 
-        if(count($this->params)) {
+        if ($this->id) {
+            $this->obj->loadFull(null, $this->id);
+            $this->obj->this = '/'.$this->module.'/'.$this->id;
+        } else {
             $this->obj->{$this->key} = -1;
             $this->obj->count = -1;
 
-            $this->obj->prev = 'prev page';
-            $this->obj->next = 'next page';
-        } else {
-            $this->obj->load($this->id);
-            $this->params['id'] = $this->id;
+            $this->obj->prev = 'TODO: prev page';
+            $this->obj->next = 'TODO: next page';
+            $this->obj->this = '/'.$this->module.'/?'.http_build_query($this->params);
         }
 
         if(is_null($this->obj->{$this->key})) {
             $this->app->response()->status(404);
         } else {
-            $this->obj->this = '/'.$this->module.'/?'.http_build_query($this->params);
             $api = new web2project_API_Wrapper($this->obj);
             $this->app->response()->body($api->getObjectExport());
         }

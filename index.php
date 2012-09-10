@@ -12,7 +12,7 @@ $app = new Slim(
 //TODO: figure out authentication
 $GLOBALS['acl'] = new w2p_Mocks_Permissions();
 
-$app->get('/:module/(:id)', function($module, $id = 0) use ($app) {
+$app->get('/:module(/:id)', function($module, $id = 0) use ($app) {
     $action = new web2project_API_Get($app, $module, $id);
     $app = $action->process();
 });
@@ -33,20 +33,15 @@ $app->options('/:module', function($module) use ($app) {
 });
 
 /*
- * NOTE: 
+ * NOTE:
  *    Generally, a PUT is supposed to accept the *entire* resource including the
  *    unchanged fields while a PATCH should effectively be a "diff." For the time
- *    being, they're both implemented as PATCH. Get over it.
+ *    being, PUT behaves as a PATCH. Get over it.
  */
 $app->put('/:module/:id', function($module, $id) use ($app) {
     $action = new web2project_API_Put($app, $module, $id);
     $app = $action->process();
 });
-$app->put('/:module/:id', function($module, $id) use ($app) {
-    $action = new web2project_API_Put($app, $module, $id);
-    $app = $action->process();
-});
-
 
 $app->run();
 echo "\n\n";

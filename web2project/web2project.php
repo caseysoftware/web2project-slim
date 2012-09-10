@@ -40,14 +40,16 @@ function getClassName($module)
 
 function unPluralize($word)
 {
-    
     $suffix = substr($word, -3);
     switch ($suffix) {
         case 'ies':
             $word = substr($word, 0, -3).'y';
             break;
         default:
-            $word = substr($word, 0, -1);
+            $character = substr($word, -1);
+            if('s' == $character) {
+                $word = substr($word, 0, -1);
+            }
     }
     
     return $word;
