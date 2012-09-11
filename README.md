@@ -29,7 +29,7 @@ Results of: curl -X OPTIONS http://localhost/web2project-slim/links
         "index":{"href":"\/links\/","method":"GET"},
         "filter":{"href":"\/links\/","method":"GET", "optional":["page","limit","offset"]},
         "search":{"href":"\/links\/","method":"GET","required":["search"]},
-        "view":{"href":"\/links\/","method":"GET","required":["link_id"]},
+        "view":{"href":"\/links\/:id","method":"GET","required":["link_id"]},
         "create":{
             "href":"\/links\/",
             "method":"POST",
@@ -37,11 +37,11 @@ Results of: curl -X OPTIONS http://localhost/web2project-slim/links
             "optional":["link_id","link_project","link_url","link_task","link_name","link_parent","link_description","link_owner","link_date","link_icon","link_category"]
         },
         "update":{
-            "href":"\/links\/",
+            "href":"\/links\/:id",
             "method":"PATCH",
             "required":"link_id",
             "optional":["link_id","link_project","link_url","link_task","link_name","link_parent","link_description","link_owner","link_date","link_icon","link_category"]},
-        "delete":{"href":"\/links\/","method":"DELETE","required":"link_id"}
+        "delete":{"href":"\/links\/:id","method":"DELETE","required":"link_id"}
     }
 }
 
@@ -53,17 +53,17 @@ Results of: curl -X OPTIONS http://localhost/web2project-slim/companies
         "index":{"href":"\/companies\/","method":"GET"},
         "filter":{"href":"\/companies\/","method":"GET","optional":["page","limit","offset"]},
         "search":{"href":"\/companies\/","method":"GET","required":["search"]},
-        "view":{"href":"\/companies\/","method":"GET","required":["company_id"]},
+        "view":{"href":"\/companies\/:id","method":"GET","required":["company_id"]},
         "create":{
             "href":"\/companies\/",
             "method":"POST",
             "required":["company_name","company_owner"],
             "optional":["company_id","company_name","company_phone1","company_phone2","company_fax","company_address1","company_address2","company_city","company_state","company_zip","company_country","company_email","company_primary_url","company_owner","company_description","company_type","company_custom"]},
         "update":{
-            "href":"\/companies\/",
+            "href":"\/companies\/:id",
             "method":"PATCH",
             "required":"company_id",
             "optional":["company_id","company_name","company_phone1","company_phone2","company_fax","company_address1","company_address2","company_city","company_state","company_zip","company_country","company_email","company_primary_url","company_owner","company_description","company_type","company_custom"]},
-        "delete":{"href":"\/companies\/","method":"DELETE","required":"company_id"}
+        "delete":{"href":"\/companies\/:id","method":"DELETE","required":"company_id"}
     }
 }
