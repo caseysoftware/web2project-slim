@@ -1,0 +1,13 @@
+{
+    "name": "web2project/api",
+    "description": "This is a simple Slim-based API for web2project",
+    "require": {
+        "slim/slim": "1.6.7"
+    },
+    "authors": [
+        {
+            "name": "D Keith Casey Jr",
+            "email": "keith@caseysoftware.com"
+        }
+    ]
+}

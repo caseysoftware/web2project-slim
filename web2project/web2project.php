@@ -1,8 +1,5 @@
 <?php
 
-$slim_folder = 'vendors/Slim/';
-require $slim_folder.'Slim/Slim.php';
-
 require_once $web2project_folder.'/base.php';
 require_once W2P_BASE_DIR . '/includes/config.php';
 require_once W2P_BASE_DIR . '/includes/main_functions.php';

@@ -1,5 +1,5 @@
 
 nbproject/*
 .DS_Store
-
-vendors/Slim
+vendor
+composer.phar

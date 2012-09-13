@@ -1,0 +1,17 @@
+{
+    "hash": "ac7d7f8e110d53af78e9b2801ff79a42",
+    "packages": [
+        {
+            "package": "slim/slim",
+            "version": "1.6.7"
+        }
+    ],
+    "packages-dev": null,
+    "aliases": [
+
+    ],
+    "minimum-stability": "stable",
+    "stability-flags": [
+
+    ]
+}

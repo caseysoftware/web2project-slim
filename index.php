@@ -1,4 +1,5 @@
 <?php
+require_once 'vendor/autoload.php';
 
 //NOTE: This must be configured manually:
 $web2project_folder = '../web2project';
