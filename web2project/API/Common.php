@@ -17,12 +17,14 @@ abstract class web2project_API_Common {
 
     abstract public function process();
 
-    public function __construct(Slim $app, $module, $id = 0)
+    public function __construct(Slim $app, $module, $id = 0, $submodule = '')
     {
         $this->app       = $app;
         $this->module    = $module;
+        $this->submodule = $submodule;
         $this->key       = unPluralize($this->module).'_id';
         $this->id        = $id;
+        $this->output    = new stdClass();
 
         return $this->init();
     }

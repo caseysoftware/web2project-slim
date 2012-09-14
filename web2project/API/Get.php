@@ -19,30 +19,70 @@ class web2project_API_Get extends web2project_API_Common {
             return $this->app;
         }
 
-        $this->params = array_map("intval", $this->params);
-
         if ($this->id) {
             $this->obj->loadFull(null, $this->id);
-            $this->obj->this = '/'.$this->module.'/'.$this->id;
+            $this->output->resource = $this->obj;
+            $this->output->this = '/'.$this->module.'/'.$this->id;
+            $this->output->super_resources = $this->setSuperResources();
+            $this->output->sub_resources = $this->setSubResources();
+
+            $this->output->self = '/'.$this->module.'/'.$this->id;
+        } else {
+            $collection = $this->processCollection();
+
+            $this->output->collection = $collection;
+            $this->output->count = count($collection);
+            $this->output->resource->{$this->key} = -1;
+
+            $this->output->self = '/'.$this->module . $this->processParams($this->params);
+
+            $page = $this->params['page'];
+            $this->params['page'] = $page-1;
+            $this->output->prev = '/'.$this->module . $this->processParams($this->params);
+
+            $this->params['page'] = $page+1;
+            $this->output->next = '/'.$this->module . $this->processParams($this->params);
             
-            $this->obj->super_resources = $this->setSuperResources();
-            $this->obj->sub_resources = $this->setSubResources();
-        } else {
-            $this->obj->{$this->key} = -1;
-            $this->obj->count = -1;
+            $page = $this->params['page'];
+            $this->params['page'] = 0;
+            $this->output->first = '/'.$this->module . $this->processParams($this->params);
 
-            $this->obj->prev = 'TODO: prev page';
-            $this->obj->next = 'TODO: next page';
-            $this->obj->this = '/'.$this->module.'/?'.http_build_query($this->params);
+            $page = $this->params['page'];
+            $this->params['page'] = 100;
+            $this->output->last = '/'.$this->module . $this->processParams($this->params);
         }
 
-        if(is_null($this->obj->{$this->key})) {
+        if(is_null($this->output->resource->{$this->key})) {
             $this->app->response()->status(404);
-        } else {
-            $api = new web2project_API_Wrapper($this->obj);
-            $this->app->response()->body($api->getObjectExport());
+            return;
         }
+
+        $api = new web2project_API_Wrapper($this->output);
+        $this->app->response()->body($api->getObjectExport());
 
         return $this->app;
+    }
+    
+    protected function processCollection()
+    {
+        $page  = (isset($this->params['page']))  ? $this->params['page']  : 0;
+        $limit = (isset($this->params['limit'])) ? $this->params['limit'] : 20;
+
+        $this->params['page']  = $page;
+        $this->params['limit'] = $limit;
+
+        $collection = $this->obj->loadAll($this->key);
+        $collection = array_slice($collection, $page*$limit, $limit);
+        
+        return $collection;
+    }
+
+    protected function processParams($params)
+    {
+        foreach($params as $param => $value) {
+            $string .= "/$param/$value";
+        }
+
+        return (0 < strlen($string) ? $string : '');
     }
 }
