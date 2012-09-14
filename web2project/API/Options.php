@@ -17,10 +17,11 @@ class web2project_API_Options extends web2project_API_Common {
         }
 
         $class = new stdClass();
-        $class->resource = '/'.$this->module;
+        $class->self = '/'.$this->module;
         
         $class->actions = array(
             'index'  => array('href'        => $class->resource, 'method' => 'GET'),
+            'info'   => array('href'        => $class->self, 'method' => 'OPTIONS'),
             'filter' => array('href'        => $class->resource,
                               'method'      => 'GET',
                               'optional'    => array('page', 'limit', 'offset')),
@@ -36,11 +37,11 @@ class web2project_API_Options extends web2project_API_Common {
                               'optional'    => $this->getOptional()),
             'update' => array('href'        => $class->resource . '/:id',
                               'method'      => 'PATCH',
-                              'required'    => $this->key,
+                              'required'    => array($this->key),
                               'optional'    => $this->getOptional()),
             'delete' => array('href'        => $class->resource . '/:id',
                               'method'      => 'DELETE',
-                              'required'    => $this->key),
+                              'required'    => array($this->key)),
         );
 
         $this->app->response()->body(json_encode($class));
