@@ -6,14 +6,18 @@
  *      links/123
  */
 
-class web2project_API_Delete extends web2project_API_Base {
+class web2project_API_Delete extends web2project_API_Common {
     
     public function process()
     {
+        $status = $this->app->response()->status();
+        
+        if ($status != 200) {
+            return $this->app;
+        }
+
         $result = $this->obj->delete($this->id);
-//print_r($result);
-//TODO: fix the error messages
-//echo 'x'.$result.'x'."\n\n";
+
         if (!$result) {
             $error = new web2project_API_Error();
             $error->this     = $this->obj->this = '/'.$this->module . '/' . $this->id;

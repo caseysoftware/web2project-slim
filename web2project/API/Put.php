@@ -6,10 +6,16 @@
  *      links/123
  */
 
-class web2project_API_Put extends web2project_API_Base {
+class web2project_API_Put extends web2project_API_Common {
     
     public function process()
     {
+        $status = $this->app->response()->status();
+        
+        if ($status != 200) {
+            return $this->app;
+        }
+
         $this->obj->load($this->id);
 
         if(is_null($this->obj->{$this->key})) {

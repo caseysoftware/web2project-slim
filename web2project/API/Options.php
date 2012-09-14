@@ -6,10 +6,16 @@
  *      links/
  */
 
-class web2project_API_Options extends web2project_API_Base {
+class web2project_API_Options extends web2project_API_Common {
     
     public function process()
     {
+        $status = $this->app->response()->status();
+        
+        if ($status != 200) {
+            return $this->app;
+        }
+
         $class = new stdClass();
         $class->resource = '/'.$this->module;
         

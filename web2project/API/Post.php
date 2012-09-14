@@ -1,9 +1,15 @@
 <?php
 
-class web2project_API_Post extends web2project_API_Base {
+class web2project_API_Post extends web2project_API_Common {
     
     public function process()
     {
+        $status = $this->app->response()->status();
+        
+        if ($status != 200) {
+            return $this->app;
+        }
+
         $this->obj->bind($this->params);
         $result = $this->obj->store();
 
