@@ -13,20 +13,17 @@ $app = new Slim(
 //TODO: figure out authentication
 $GLOBALS['acl'] = new w2p_Mocks_Permissions();
 
-$app->get('/', function() use ($app) {
-   echo 'hello world! - get';
+$app->options('/', function() use ($app) {
+    $action = new web2project_API_Root($app);
+    $app = $action->options();
 });
 
-$app->post('/', function() use ($app) {
-    echo 'hello world! - post';
-});
-
-$app->get('/:module(/:id)', function($module, $id = 0) use ($app) {
+$app->get('/:module(/(:id))', function($module, $id = 0) use ($app) {
     $action = new web2project_API_Get($app, $module, $id);
     $app = $action->process();
 });
 
-$app->post('/:module', function($module) use ($app) {
+$app->post('/:module(/)', function($module) use ($app) {
     $action = new web2project_API_Post($app, $module);
     $app = $action->process();
 });
@@ -36,7 +33,7 @@ $app->delete('/:module/:id', function($module, $id) use ($app) {
     $app = $action->process();
 });
 
-$app->options('/:module', function($module) use ($app) {
+$app->options('/:module(/)', function($module) use ($app) {
     $action = new web2project_API_Options($app, $module);
     $app = $action->process();
 });
