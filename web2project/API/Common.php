@@ -12,7 +12,10 @@ abstract class web2project_API_Common {
     protected $obj       = '';
     protected $classname = '';
 
+    protected $AppUI     = null;
     protected $resources = array();
+
+    abstract public function process();
 
     public function __construct(Slim $app, $module, $id = 0)
     {
@@ -26,8 +29,8 @@ abstract class web2project_API_Common {
 
     protected function init()
     {
-        $AppUI = new w2p_Core_CAppUI();
-        $this->resources = $AppUI->getActiveModules();
+        $this->AppUI = new w2p_Core_CAppUI();
+        $this->resources = $this->AppUI->getActiveModules();
 
         if(isset($this->resources[$this->module])) {
             $this->classname = getClassName($this->module);
@@ -40,5 +43,44 @@ abstract class web2project_API_Common {
         return $this->app;
     }
 
-    abstract public function process();
+    /*
+     * It's easy to know which modules this module/object is dependent on.
+     */
+    protected function setSuperResources()
+    {
+        $resources = array();
+
+        $fields  = get_class_vars($this->classname);
+        foreach($fields as $field => $value) {
+            $id = $this->obj->{$field};
+            $last_underscore = strrpos($field, '_') + 1;
+            $suffix = ($last_underscore !== false) ? substr($field, $last_underscore) : $field;
+            unset($fields[$field]);
+            $fields[w2p_pluralize($suffix)] = $id;
+        }
+//TODO: figure out what to do with _parents
+        $modules = $this->AppUI->getActiveModules();
+        foreach($fields as $field => $value) {
+            if(isset($modules[$field]) && $value) {
+                $resources[$field] = array('name' => $modules[$field], 'href' => "/$field/".$value);
+            }
+        }
+
+        return $resources;
+    }
+
+    /*
+     * TODO: .. but how do we figure out which modules/objects are dependent on it?
+     *
+     * Do we need a hook_register?
+     */
+    protected function setSubResources()
+    {
+        $resources = array();
+
+        $modules = $this->AppUI->getActiveModules();
+        foreach
+
+        return $resources;
+    }
 }

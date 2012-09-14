@@ -24,6 +24,9 @@ class web2project_API_Get extends web2project_API_Common {
         if ($this->id) {
             $this->obj->loadFull(null, $this->id);
             $this->obj->this = '/'.$this->module.'/'.$this->id;
+            
+            $this->obj->super_resources = $this->setSuperResources();
+            $this->obj->sub_resources = $this->setSubResources();
         } else {
             $this->obj->{$this->key} = -1;
             $this->obj->count = -1;
@@ -42,5 +45,4 @@ class web2project_API_Get extends web2project_API_Common {
 
         return $this->app;
     }
-
 }
