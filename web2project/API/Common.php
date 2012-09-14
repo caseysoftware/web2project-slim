@@ -59,7 +59,7 @@ abstract class web2project_API_Common {
             $fields[w2p_pluralize($suffix)] = $id;
         }
 //TODO: figure out what to do with _parents
-        $modules = $this->AppUI->getActiveModules();
+        $modules = $this->resources;
         foreach($fields as $field => $value) {
             if(isset($modules[$field]) && $value) {
                 $resources[$field] = array('name' => $modules[$field], 'href' => "/$field/".$value);
@@ -69,17 +69,29 @@ abstract class web2project_API_Common {
         return $resources;
     }
 
-    /*
-     * TODO: .. but how do we figure out which modules/objects are dependent on it?
-     *
-     * Do we need a hook_register?
-     */
     protected function setSubResources()
     {
         $resources = array();
 
-        $modules = $this->AppUI->getActiveModules();
-        foreach
+        $modules = $this->resources;
+
+        foreach($modules as $path => $name) {
+            $classname = getClassName($path);
+            $fields  = get_class_vars($classname);
+            try {
+                foreach($fields as $field => $value) {
+                    $last_underscore = strrpos($field, '_') + 1;
+                    $suffix = ($last_underscore !== false) ? substr($field, $last_underscore) : $field;
+                    $suffix = w2p_pluralize($suffix);
+//TODO: figure out what to do with _parents
+                    if ($suffix == $this->module) {
+                        $resources[$path] = array('name' => $name, 'href' => "/{$this->module}/{$this->id}/$path");
+                    }
+                }
+            } catch (Exception $exc) {
+//TODO: do we care about what happens here?
+            }
+        }
 
         return $resources;
     }
