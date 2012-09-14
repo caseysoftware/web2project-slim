@@ -18,8 +18,8 @@ $app->options('/', function() use ($app) {
     $app = $action->options();
 });
 
-$app->get('/:module(/(:id))', function($module, $id = 0) use ($app) {
-    $action = new web2project_API_Get($app, $module, $id);
+$app->get('/:module(/(:id(/:submodule(/))))', function($module, $id = 0, $submodule = '') use ($app) {
+    $action = new web2project_API_Get($app, $module, $id, $submodule);
     $app = $action->process();
 });
 

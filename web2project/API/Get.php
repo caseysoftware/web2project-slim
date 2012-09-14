@@ -61,8 +61,8 @@ class web2project_API_Get extends web2project_API_Common {
 
         return $this->app;
     }
-    
-    protected function processCollection()
+
+    protected function processCollection($filter = '')
     {
         $page  = (isset($this->params['page']) && (int) $this->params['page'])  ? $this->params['page']  : 0;
         $limit = (isset($this->params['limit']) && (int) $this->params['limit']) ? $this->params['limit'] : 20;
@@ -70,10 +70,10 @@ class web2project_API_Get extends web2project_API_Common {
         $this->params['page']  = $page;
         $this->params['limit'] = $limit;
 
-        $collection = $this->obj->loadAll($this->key);
+        $collection = $this->obj->loadAll($this->key, $filter);
         $this->output->total = count($collection);
         $collection = array_slice($collection, $page*$limit, $limit);
-        
+
         return $collection;
     }
 
