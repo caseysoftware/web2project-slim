@@ -22,16 +22,15 @@ class web2project_API_Get extends web2project_API_Common {
         if ($this->id) {
             $this->obj->loadFull(null, $this->id);
             $this->output->resource = $this->obj;
-            $this->output->this = '/'.$this->module.'/'.$this->id;
             $this->output->super_resources = $this->setSuperResources();
             $this->output->sub_resources = $this->setSubResources();
 
             $this->output->self = '/'.$this->module.'/'.$this->id;
         } else {
             $collection = $this->processCollection();
-
             $this->output->collection = $collection;
             $this->output->count = count($collection);
+
             $this->output->resource->{$this->key} = -1;
 
             $this->output->self = '/'.$this->module . $this->processParams($this->params);
@@ -48,7 +47,7 @@ class web2project_API_Get extends web2project_API_Common {
             $this->output->first = '/'.$this->module . $this->processParams($this->params);
 
             $page = $this->params['page'];
-            $this->params['page'] = 100;
+            $this->params['page'] = floor($this->output->total/$this->params['limit']);
             $this->output->last = '/'.$this->module . $this->processParams($this->params);
         }
 
@@ -65,13 +64,14 @@ class web2project_API_Get extends web2project_API_Common {
     
     protected function processCollection()
     {
-        $page  = (isset($this->params['page']))  ? $this->params['page']  : 0;
-        $limit = (isset($this->params['limit'])) ? $this->params['limit'] : 20;
+        $page  = (isset($this->params['page']) && (int) $this->params['page'])  ? $this->params['page']  : 0;
+        $limit = (isset($this->params['limit']) && (int) $this->params['limit']) ? $this->params['limit'] : 20;
 
         $this->params['page']  = $page;
         $this->params['limit'] = $limit;
 
         $collection = $this->obj->loadAll($this->key);
+        $this->output->total = count($collection);
         $collection = array_slice($collection, $page*$limit, $limit);
         
         return $collection;
@@ -79,10 +79,8 @@ class web2project_API_Get extends web2project_API_Common {
 
     protected function processParams($params)
     {
-        foreach($params as $param => $value) {
-            $string .= "/$param/$value";
-        }
+        $string = http_build_query($params);
 
-        return (0 < strlen($string) ? $string : '');
+        return (0 < strlen($string) ? '?'.$string : '');
     }
 }
