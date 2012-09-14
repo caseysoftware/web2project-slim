@@ -33,11 +33,16 @@ abstract class web2project_API_Common {
     {
         $this->AppUI = new w2p_Core_CAppUI();
         $this->resources = $this->AppUI->getActiveModules();
-//TODO: if submodule is set, we need to change how this works..
-error_log($this->submodule);
+
         if(isset($this->resources[$this->module])) {
             $this->classname = getClassName($this->module);
             $this->obj       = new $this->classname;
+
+            if(isset($this->resources[$this->submodule])) {
+                $this->key       = unPluralize($this->submodule).'_id';
+                $this->classname = getClassName($this->submodule);
+                $this->obj       = new $this->classname;
+            }
             $this->params    = $this->app->request()->params();
         } else {
             $this->app->response()->status(404);
