@@ -19,6 +19,7 @@ abstract class web2project_API_Common {
         $this->app       = $app;
         $this->module    = $module;
         $this->key       = unPluralize($this->module).'_id';
+        $this->id        = $id;
 
         return $this->init();
     }
@@ -31,9 +32,7 @@ abstract class web2project_API_Common {
         if(isset($this->resources[$this->module])) {
             $this->classname = getClassName($this->module);
             $this->obj       = new $this->classname;
-
-            $this->id        = $id;
-            $this->params    = $app->request()->params();
+            $this->params    = $this->app->request()->params();
         } else {
             $this->app->response()->status(404);
         }
