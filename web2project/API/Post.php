@@ -15,18 +15,17 @@ class web2project_API_Post extends web2project_API_Common {
 
         if ($result) {
             $this->app->response()->status(201);
-            $this->app->response()->body($this->wrapper->getObjectExport());
+
+            $this->output->self = $this->output->root_uri . $this->output->resource_uri .
+                    '/' . $this->obj->{$this->key};            
         } else {
             $this->app->response()->status(400);
 
-            $error = new web2project_API_Error();
-            $error->status   = 400;
-            $error->this     = $this->obj->this = '/'.$this->module;
-            $error->resource = $this->obj;
-            $error->errors   = $this->obj->getError();
-
-            $this->app->response()->body($error->getObjectExport());
+            $this->output->self     = $this->output->root_uri . $this->output->resource_uri;
+            $this->output->obj      = $this->obj;
+            $this->output->errors   = $this->obj->getError();
         }
+        $this->app->response()->body($this->wrapper->getObjectExport($this->output));
 
         return $this->app;
     }
