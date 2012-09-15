@@ -45,6 +45,10 @@ abstract class web2project_API_Common {
         $this->resources = $this->AppUI->getActiveModules();
 
         if(isset($this->resources[$this->module])) {
+
+//TODO: this is to fix one of the class hacks from core web2project
+$this->module = ('calendar' == $this->module) ? 'event' : $this->module;
+
             $this->classname = getClassName($this->module);
             $this->obj       = new $this->classname;
 
