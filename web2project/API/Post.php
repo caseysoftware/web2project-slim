@@ -17,7 +17,7 @@ class web2project_API_Post extends web2project_API_Common {
             $this->app->response()->status(201);
 
             $this->output->self = $this->output->root_uri . $this->output->resource_uri .
-                    '/' . $this->obj->{$this->key};            
+                    '/' . $this->obj->{$this->key};
         } else {
             $this->app->response()->status(400);
 

@@ -18,14 +18,16 @@ class web2project_API_Delete extends web2project_API_Common {
 
         $result = $this->obj->delete($this->id);
 
-        if (!$result) {
-            $error = new web2project_API_Error();
-            $error->this     = $this->obj->this = '/'.$this->module . '/' . $this->id;
-            $error->status   = (isset($errors['noDeletePermission'])) ? '401' : '400';
-            $error->errors   = $this->obj->getError();
-
+        if ($result) {
+            $this->app->response()->status(204);
+        } else {
+            $status   = (isset($errors['noDeletePermission'])) ? '401' : '400';
             $this->app->response()->status($error->status);
-            $this->app->response()->body($error->getObjectExport());
+
+            $this->output->self     = $this->output->root_uri . $this->output->resource_uri;
+            $this->output->errors   = $this->obj->getError();
+
+            $this->app->response()->body($this->wrapper->getObjectExport($this->output));
         }
 
         return $this->app;

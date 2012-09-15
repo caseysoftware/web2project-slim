@@ -21,7 +21,7 @@ class web2project_API_Options extends web2project_API_Common {
             'info'   => array('href'        => $class->self, 'method' => 'OPTIONS'),
             'filter' => array('href'        => $class->resource,
                               'method'      => 'GET',
-                              'optional'    => array('page', 'limit', 'offset')),
+                              'optional'    => array('page', 'limit')),
             'search' => array('href'        => $class->resource, 
                               'method'      => 'GET',
                               'required'    => array('search')),

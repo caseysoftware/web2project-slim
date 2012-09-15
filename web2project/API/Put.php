@@ -24,20 +24,15 @@ class web2project_API_Put extends web2project_API_Common {
             $this->obj->bind($this->params);
             $result = $this->obj->store();
 
-            if ($result) {
-                $this->obj->self = '/'.$this->module.'/' .$this->id;
-                $this->app->response()->body($this->wrapper->getObjectExport());
-            } else {
+            if (!$result) {
                 $this->app->response()->status(400);
 
-                $error = new web2project_API_Error();
-                $error->status   = 400;
-                $error->this     = $this->obj->this = '/'.$this->module;
-                $error->resource = $this->obj;
-                $error->errors   = $this->obj->getError();
-
-                $this->app->response()->body($error->getObjectExport());
+                $this->output->resource = $this->obj;
+                $this->output->errors   = $this->obj->getError();
             }
+
+            $this->output->self = $this->output->root_uri . $this->output->resource_uri;
+            $this->app->response()->body($this->wrapper->getObjectExport($this->output));
         }
 
         return $this->app;
