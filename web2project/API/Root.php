@@ -14,14 +14,23 @@ class web2project_API_Root {
         $this->AppUI    = new w2p_Core_CAppUI();
         $this->request  = $this->app->request();
 
+        $this->wrapper   = new web2project_API_Wrapper();
         $this->output   = new stdClass();
         $this->output->root_uri = $this->request->getRootUri();
         $this->output->resource_uri = $this->request->getResourceUri();
         $this->output->self = $this->output->root_uri . $this->output->resource_uri;
+        
+        $this->app->response()->status(401);
     }
 
     public function options()
     {
+        $status = $this->app->response()->status();
+
+        if ($status != 200) {
+            return $this->app;
+        }
+
         $subresources = array();
 
         $modules = $this->AppUI->getActiveModules();
@@ -34,8 +43,7 @@ $modules = array_diff($modules, array('History', 'ProjectDesigner', 'Reports', '
         }
         $this->output->sub_resources = $subresources;
 
-        $api = new web2project_API_Wrapper();
-        $this->app->response()->body($api->getObjectExport($this->output));
+        $this->app->response()->body($this->wrapper->getObjectExport($this->output));
 
         return $this->app;
     }
