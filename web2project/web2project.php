@@ -6,7 +6,7 @@ require_once W2P_BASE_DIR . '/includes/main_functions.php';
 require_once W2P_BASE_DIR . '/includes/db_adodb.php';
 
 function web2project_API_autoload($className) {
-    $library_name = 'web2project_API';
+    $library_name = 'web2project_';
 
     if (substr($className, 0, strlen($library_name)) != $library_name) {
         return false;

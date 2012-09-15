@@ -27,7 +27,7 @@ abstract class web2project_API_Common {
         $this->request   = $this->app->request();
         $this->params    = $this->app->request()->params();
 
-        $this->wrapper   = new web2project_API_Wrapper();
+        $this->wrapper   = new web2project_Output_Base();
         $this->output    = new stdClass();
 
         $this->output->root_uri = $this->request->getRootUri();

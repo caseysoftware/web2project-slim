@@ -14,13 +14,13 @@ class web2project_API_Root {
         $this->AppUI    = new w2p_Core_CAppUI();
         $this->request  = $this->app->request();
 
-        $this->wrapper   = new web2project_API_Wrapper();
+        $this->wrapper   = new web2project_Output_Base();
         $this->output   = new stdClass();
         $this->output->root_uri = $this->request->getRootUri();
         $this->output->resource_uri = $this->request->getResourceUri();
         $this->output->self = $this->output->root_uri . $this->output->resource_uri;
         
-        $this->app->response()->status(401);
+        //$this->app->response()->status(401);
     }
 
     public function options()
