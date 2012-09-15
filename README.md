@@ -6,10 +6,16 @@ This is an attempt to make a proper API using Slim as a foundation.
 
 == TODO ==
 
+-  Provide a variety of output formats/media
+-  Make use of accept headers to determine output format
+-  Support authentication
+
+
+== DONE ==
+
+-  Figure out how to identify and include the super/sub-resources automatically
 -  Catch undefined resources (aka ones that don't have classes to map to) before the E_Fatal and return a 400 or 404
 -  Better error handling all the way around
--  Figure out how to identify and include the super/sub-resources automatically
-
 
 
 == OPTIONS ==
