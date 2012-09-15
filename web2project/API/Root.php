@@ -17,6 +17,7 @@ class web2project_API_Root {
         $this->output   = new stdClass();
         $this->output->root_uri = $this->request->getRootUri();
         $this->output->resource_uri = $this->request->getResourceUri();
+        $this->output->self = $this->output->root_uri . $this->output->resource_uri;
     }
 
     public function options()
@@ -26,7 +27,8 @@ class web2project_API_Root {
         $modules = $this->AppUI->getActiveModules();
 //TODO: There are some non-API-able modules in this list. We need to figure out how to remove them.
         foreach($modules as $path => $module) {
-            $subresources[$path] = array('name' => $module, 'href' => $this->output->self.$path);
+            $subresources[$path] = array('name' => $module,
+                'uri' => $this->output->self.$path);
         }
         
         $this->output->sub_resources = $subresources;
