@@ -19,23 +19,21 @@ class web2project_API_Get extends web2project_API_Common {
             return $this->app;
         }
 
-        $api = new web2project_API_Wrapper();
-
         if ($this->submodule) {
             $fk = unPluralize($this->submodule) . '_'.  unPluralize($this->module);
             $filter = "$fk = {$this->id}";
 
             $this->processCollection($filter);
-            $this->app->response()->body($api->getObjectExport($this->output));
+            $this->app->response()->body($this->wrapper->getObjectExport($this->output));
             return $this->app;
         }
         if ($this->id) {
             $this->processObject();
-            $this->app->response()->body($api->getObjectExport($this->output));
+            $this->app->response()->body($this->wrapper->getObjectExport($this->output));
             return $this->app;
         } else {
             $this->processCollection();
-            $this->app->response()->body($api->getObjectExport($this->output));
+            $this->app->response()->body($this->wrapper->getObjectExport($this->output));
             return $this->app;
         }
 
@@ -62,18 +60,17 @@ class web2project_API_Get extends web2project_API_Common {
 
         $collection = $this->obj->loadAll($this->key, $filter);
         $this->output->total = count($collection);
+        $maxPage = floor($this->output->total/$this->params['limit']);
         $collection = array_slice($collection, $page*$limit, $limit);
 
         $this->output->collection = $collection;
         $this->output->count = count($collection);
 
-        $this->output->self = '/'.$this->module . $this->processParams($this->params);
-
         $page = $this->params['page'];
-        $this->params['page'] = $page-1;
+        $this->params['page'] = ($page > 1) ? $page-1 : 0;
         $this->output->prev = '/'.$this->module . $this->processParams($this->params);
 
-        $this->params['page'] = $page+1;
+        $this->params['page'] = ($page < $maxPage) ? $page+1 : $maxPage;
         $this->output->next = '/'.$this->module . $this->processParams($this->params);
 
         $page = $this->params['page'];
@@ -81,14 +78,7 @@ class web2project_API_Get extends web2project_API_Common {
         $this->output->first = '/'.$this->module . $this->processParams($this->params);
 
         $page = $this->params['page'];
-        $this->params['page'] = floor($this->output->total/$this->params['limit']);
+        $this->params['page'] = $maxPage;
         $this->output->last = '/'.$this->module . $this->processParams($this->params);
-    }
-
-    protected function processParams($params)
-    {
-        $string = http_build_query($params);
-
-        return (0 < strlen($string) ? '?'.$string : '');
     }
 }

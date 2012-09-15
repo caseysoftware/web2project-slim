@@ -16,10 +16,7 @@ class web2project_API_Options extends web2project_API_Common {
             return $this->app;
         }
 
-        $class = new stdClass();
-        $class->self = '/'.$this->module;
-        
-        $class->actions = array(
+        $this->output->actions = array(
             'index'  => array('href'        => $class->resource, 'method' => 'GET'),
             'info'   => array('href'        => $class->self, 'method' => 'OPTIONS'),
             'filter' => array('href'        => $class->resource,
@@ -44,7 +41,7 @@ class web2project_API_Options extends web2project_API_Common {
                               'required'    => array($this->key)),
         );
 
-        $this->app->response()->body(json_encode($class));
+        $this->app->response()->body($this->wrapper->getObjectExport($this->output));
 
         return $this->app;
     }

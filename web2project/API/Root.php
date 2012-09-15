@@ -14,8 +14,9 @@ class web2project_API_Root {
         $this->AppUI    = new w2p_Core_CAppUI();
         $this->request  = $this->app->request();
 
-        $this->object   = new stdClass();
-        $this->object->self = $this->request->getResourceUri();
+        $this->output   = new stdClass();
+        $this->output->root_uri = $this->request->getRootUri();
+        $this->output->resource_uri = $this->request->getResourceUri();
     }
 
     public function options()
@@ -25,13 +26,13 @@ class web2project_API_Root {
         $modules = $this->AppUI->getActiveModules();
 //TODO: There are some non-API-able modules in this list. We need to figure out how to remove them.
         foreach($modules as $path => $module) {
-            $subresources[$path] = array('name' => $module, 'href' => $this->object->self.$path);
+            $subresources[$path] = array('name' => $module, 'href' => $this->output->self.$path);
         }
         
-        $this->object->sub_resources = $subresources;
+        $this->output->sub_resources = $subresources;
 
-        $api = new web2project_API_Wrapper($this->object);
-        $this->app->response()->body($api->getObjectExport());
+        $api = new web2project_API_Wrapper();
+        $this->app->response()->body($api->getObjectExport($this->output));
 
         return $this->app;
     }

@@ -25,9 +25,8 @@ class web2project_API_Put extends web2project_API_Common {
             $result = $this->obj->store();
 
             if ($result) {
-                $this->obj->this = '/'.$this->module.'/' .$this->id;
-                $api = new web2project_API_Wrapper($this->obj);
-                $this->app->response()->body($api->getObjectExport());
+                $this->obj->self = '/'.$this->module.'/' .$this->id;
+                $this->app->response()->body($this->wrapper->getObjectExport());
             } else {
                 $this->app->response()->status(400);
 

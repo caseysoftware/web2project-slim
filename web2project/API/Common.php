@@ -24,7 +24,17 @@ abstract class web2project_API_Common {
         $this->submodule = $submodule;
         $this->key       = unPluralize($this->module).'_id';
         $this->id        = $id;
+        $this->request   = $this->app->request();
+        $this->params    = $this->app->request()->params();
+
+        $this->wrapper   = new web2project_API_Wrapper();
         $this->output    = new stdClass();
+
+        $this->output->root_uri = $this->request->getRootUri();
+        $this->output->resource_uri = $this->request->getResourceUri();
+
+        $this->output->self = $this->output->root_uri . $this->output->resource_uri .
+                $this->processParams($this->params);
 
         return $this->init();
     }
@@ -43,7 +53,6 @@ abstract class web2project_API_Common {
                 $this->classname = getClassName($this->submodule);
                 $this->obj       = new $this->classname;
             }
-            $this->params    = $this->app->request()->params();
         } else {
             $this->app->response()->status(404);
         }
@@ -102,5 +111,12 @@ abstract class web2project_API_Common {
         }
 
         return $resources;
+    }
+
+    protected function processParams($params)
+    {
+        $string = http_build_query($params);
+
+        return (0 < strlen($string) ? '?'.$string : '');
     }
 }

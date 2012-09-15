@@ -15,10 +15,7 @@ class web2project_API_Post extends web2project_API_Common {
 
         if ($result) {
             $this->app->response()->status(201);
-
-            $this->obj->this = '/'.$this->module.'/' .$this->obj->{$this->key};
-            $api = new web2project_API_Wrapper($this->obj);
-            $this->app->response()->body($api->getObjectExport());
+            $this->app->response()->body($this->wrapper->getObjectExport());
         } else {
             $this->app->response()->status(400);
 
