@@ -30,46 +30,51 @@ But what are the odds of that? ;)
 Results of: curl -X OPTIONS http://localhost/web2project-slim/links
 
 {
-    "resource":"\/links\/",
-    "actions":{
-        "index":{"href":"\/links\/","method":"GET"},
-        "filter":{"href":"\/links\/","method":"GET", "optional":["page","limit","offset"]},
-        "search":{"href":"\/links\/","method":"GET","required":["search"]},
-        "view":{"href":"\/links\/:id","method":"GET","required":["link_id"]},
-        "create":{
-            "href":"\/links\/",
-            "method":"POST",
-            "required":["link_name","link_url","link_owner"],
-            "optional":["link_id","link_project","link_url","link_task","link_name","link_parent","link_description","link_owner","link_date","link_icon","link_category"]
-        },
-        "update":{
-            "href":"\/links\/:id",
-            "method":"PATCH",
-            "required":"link_id",
-            "optional":["link_id","link_project","link_url","link_task","link_name","link_parent","link_description","link_owner","link_date","link_icon","link_category"]},
-        "delete":{"href":"\/links\/:id","method":"DELETE","required":"link_id"}
-    }
-}
-
-Results of: curl -X OPTIONS http://localhost/web2project-slim/companies
-
-{
-    "resource":"\/companies\/",
-    "actions":{
-        "index":{"href":"\/companies\/","method":"GET"},
-        "filter":{"href":"\/companies\/","method":"GET","optional":["page","limit","offset"]},
-        "search":{"href":"\/companies\/","method":"GET","required":["search"]},
-        "view":{"href":"\/companies\/:id","method":"GET","required":["company_id"]},
-        "create":{
-            "href":"\/companies\/",
-            "method":"POST",
-            "required":["company_name","company_owner"],
-            "optional":["company_id","company_name","company_phone1","company_phone2","company_fax","company_address1","company_address2","company_city","company_state","company_zip","company_country","company_email","company_primary_url","company_owner","company_description","company_type","company_custom"]},
-        "update":{
-            "href":"\/companies\/:id",
-            "method":"PATCH",
-            "required":"company_id",
-            "optional":["company_id","company_name","company_phone1","company_phone2","company_fax","company_address1","company_address2","company_city","company_state","company_zip","company_country","company_email","company_primary_url","company_owner","company_description","company_type","company_custom"]},
-        "delete":{"href":"\/companies\/:id","method":"DELETE","required":"company_id"}
-    }
+    "actions": {
+        "create": {
+            "href": "/web2project-slim/links", 
+            "method": "POST", 
+            "optional": [ "link_project", "link_url", "link_task", "link_name", "link_parent", "link_description", "link_owner", "link_date", "link_icon", "link_category" ],
+            "required": [ "link_name", "link_url", "link_owner" ]
+        }, 
+        "delete": {
+            "href": "/web2project-slim/links:id", 
+            "method": "DELETE", 
+            "required": [ "link_id" ]
+        }, 
+        "edit": {
+            "href": "/web2project-slim/links:id", 
+            "method": "PATCH", 
+            "optional": [ "link_project", "link_url", "link_task", "link_name", "link_parent", "link_description", "link_owner", "link_date", "link_icon", "link_category" ], 
+            "required": [
+                "link_id"
+            ]
+        }, 
+        "filter": {
+            "href": "/web2project-slim/links", 
+            "method": "GET", 
+            "optional": ["page", "limit"]
+        }, 
+        "help": {
+            "href": "/web2project-slim/links", 
+            "method": "OPTIONS"
+        }, 
+        "index": {
+            "href": "/web2project-slim/links", 
+            "method": "GET"
+        }, 
+        "search": {
+            "href": "/web2project-slim/links", 
+            "method": "GET", 
+            "required": [ "search" ]
+        }, 
+        "view": {
+            "href": "/web2project-slim/links:id", 
+            "method": "GET", 
+            "required": [ "link_id" ]
+        }
+    }, 
+    "resource_uri": "/links", 
+    "root_uri": "/web2project-slim", 
+    "self": "/web2project-slim/links"
 }
