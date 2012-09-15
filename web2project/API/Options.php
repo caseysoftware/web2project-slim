@@ -18,7 +18,7 @@ class web2project_API_Options extends web2project_API_Common {
 
         $this->output->actions = array(
             'index'  => array('href'        => $this->output->self, 'method' => 'GET'),
-            'info'   => array('href'        => $this->output->self, 'method' => 'OPTIONS'),
+            'help'   => array('href'        => $this->output->self, 'method' => 'OPTIONS'),
             'filter' => array('href'        => $this->output->self,
                               'method'      => 'GET',
                               'optional'    => array('page', 'limit')),
@@ -32,7 +32,7 @@ class web2project_API_Options extends web2project_API_Common {
                               'method'      => 'POST',
                               'required'    => $this->getRequired(),
                               'optional'    => $this->getOptional()),
-            'update' => array('href'        => $this->output->self . ':id',
+            'edit'   => array('href'        => $this->output->self . ':id',
                               'method'      => 'PATCH',
                               'required'    => array($this->key),
                               'optional'    => $this->getOptional()),
