@@ -1,6 +1,5 @@
 <?php
 
-///http://www.amundsen.com/media-types/collection/
 class web2project_Output_Base {
 
     public function __construct($output = '')
