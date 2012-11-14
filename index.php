@@ -11,7 +11,9 @@ $app = new Slim(
         );
 
 //TODO: figure out authentication
-$GLOBALS['acl'] = new w2p_Mocks_Permissions();
+//$GLOBALS['acl'] = new w2p_Mocks_Permissions();
+$GLOBALS['acl'] = null;
+$AppUI = is_object($AppUI) ? $AppUI : new w2p_Core_CAppUI();
 
 $app->options('/', function() use ($app) {
     $action = new web2project_API_Root($app);
