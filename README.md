@@ -1,7 +1,6 @@
-web2project-slim
-================
 
-== Background ==
+Background
+----------------
 
 This started as an attempt to make an API for web2project. It quickly spiraled into something else as I realized that I hate maintaining docs, especially on systems with a lot of extension points and/or add ons. So started playing with OPTIONS.
 
@@ -13,7 +12,8 @@ For context, OPTIONS is covered in RFC 2616 in Section 9.2:
 
 The full spec: http://www.w3.org/Protocols/rfc2616/rfc2616-sec9.html
 
-== The premise ==
+The premise
+----------------
 
 The problem with an API is moving from a) knowing nothing to b) knowing what Resources are available to c) how to interact with those Resources and then finally to d) actually interacting with those Resources.
 
@@ -34,23 +34,27 @@ In our case with web2project:
 *  the required/optional fields are determined by instantiating the object behind the scenes and attempting to validate it. By doing it this way, the validation errors themselves give us the fields.. we don't have to maintain a separate list or doc
 *  the inter-Resource relationships are defined by individual property names on the objects, so we can auto-resolve both parent and child resources relative to your requested resource
 
-== Some Drawbacks ==
+Some Drawbacks
+----------------
 
 -  OPTIONS is not cacheable, which means that any consumer of this API will have to re-request the OPTIONS info upon every new (request? interaction?)
 -  A few people have referred to this as "glorified RPC"
 
-== Benefits ==
+Benefits
+----------------
 
 -  All documentation is in-band with the API itself, it's difficult for them to drift apart
 -  All documentation becomes semi-machine readable completely on the fly
 -  Since we now know required/optional fields at runtime, we should be able to decorate our forms (visually and with client-side validation) for individual fields
 -  In the case of web2project, if you use our naming conventions for Add On modules, you get this API for free
 
-== Longer term ideas ==
+Longer term ideas
+----------------
 
 Now that we have these primitives - index, create, delete, edit, filter/search, help, and view - I would like to come up with "recipes" to describe a user flow through common actions.
 
-== TODO ==
+TODO
+----------------
 
 -  Add more information to the provided fields to describe required datatypes, formats, and (possibly) add human-readable descriptions
 -  Provide a variety of output formats/media
@@ -59,16 +63,15 @@ Now that we have these primitives - index, create, delete, edit, filter/search, 
 -  The required parameters of resources are also appearing in the optional list, that is incorrect
 -  On a 201 Created, the new URI should also be in a Location header instead of just in the Resource
 
-
-== DONE ==
+DONE
+----------------
 
 -  Figure out how to identify and include the super/sub-resources automatically
 -  Catch undefined resources (aka ones that don't have classes to map to) before the E_Fatal and return a 400 or 404
 -  Better error handling all the way around
 
-
-== Sample ==
-
+Sample
+----------------
 
 Results of: curl -X OPTIONS http://localhost/web2project-slim/links
 
