@@ -62,6 +62,7 @@ TODO
 -  Support authentication (Basic auth for now)
 -  The required parameters of resources are also appearing in the optional list, that is incorrect
 -  On a 201 Created, the new URI should also be in a Location header instead of just in the Resource
+-  Implement HAL for the link relations, etc - http://stateless.co/hal_specification.html
 
 DONE
 ----------------
