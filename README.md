@@ -76,10 +76,9 @@ Sample
 ----------------
 
 Results of: curl -X OPTIONS http://localhost/web2project-slim/projects
-
+```json
 {
     "actions": {
-
         "create": {
 
             "href": "/web2project-slim/projects",
@@ -198,8 +197,7 @@ Results of: curl -X OPTIONS http://localhost/web2project-slim/projects
     },
 
     "resource_uri": "/projects",
-
     "root_uri": "/web2project-slim",
-
     "self": "/web2project-slim/projects"
 }
+```
