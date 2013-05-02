@@ -80,11 +80,8 @@ Results of: curl -X OPTIONS http://localhost/web2project-slim/projects
 {
     "actions": {
         "create": {
-
             "href": "/web2project-slim/projects",
-
             "method": "POST",
-
             "optional": [
                 "project_company", "project_name", "project_short_name", "project_owner",
                 "project_url", "project_demo_url", "project_start_date", "project_end_date",
@@ -96,33 +93,24 @@ Results of: curl -X OPTIONS http://localhost/web2project-slim/projects
                 "project_location", "project_original_parent", "project_departments",
                 "project_contacts"
             ],
-
             "required": [
                 "project_name", "project_short_name", "project_company",
                 "project_owner", "project_creator", "project_priority",
                 "project_color_identifier", "project_type", "project_status"
             ]
-
         },
 
         "delete": {
-
             "href": "/web2project-slim/projects:id",
-
             "method": "DELETE",
-
             "required": [
                 "project_id"
             ]
-
         },
 
         "edit": {
-
             "href": "/web2project-slim/projects/:id",
-
             "method": "PATCH",
-
             "optional": [
                 "project_company", "project_name", "project_short_name", "project_owner",
                 "project_url", "project_demo_url", "project_start_date", "project_end_date",
@@ -134,66 +122,45 @@ Results of: curl -X OPTIONS http://localhost/web2project-slim/projects
                 "project_location", "project_original_parent", "project_departments",
                 "project_contacts"
             ],
-
             "required": [
                 "project_id"
             ]
-
         },
 
         "filter": {
-
             "href": "/web2project-slim/projects",
-
             "method": "GET",
-
             "optional": [
                 "page",
                 "limit"
             ]
-
         },
 
         "help": {
-
             "href": "/web2project-slim/projects",
-
             "method": "OPTIONS"
-
         },
 
         "index": {
-
             "href": "/web2project-slim/projects",
-
             "method": "GET"
-
         },
 
         "search": {
-
             "href": "/web2project-slim/projects",
-
             "method": "GET",
-
             "required": [
                 "search"
             ]
-
         },
 
         "view": {
-
             "href": "/web2project-slim/projects/:id",
-
             "method": "GET",
-
             "required": [
                 "project_id"
             ]
-
         }
-
     },
 
     "resource_uri": "/projects",
