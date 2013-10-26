@@ -65,20 +65,21 @@ class web2project_API_Get extends web2project_API_Common {
 
         $this->output->collection = $collection;
         $this->output->count = count($collection);
+        $suffix = ($this->id) ? '/' . $this->id . '/' . $this->submodule : '';
 
         $page = $this->params['page'];
         $this->params['page'] = ($page > 1) ? $page-1 : 0;
-        $this->output->prev = '/'.$this->module . $this->processParams($this->params);
+        $this->output->prev = '/'.$this->module . $suffix . $this->processParams($this->params);
 
         $this->params['page'] = ($page < $maxPage) ? $page+1 : $maxPage;
-        $this->output->next = '/'.$this->module . $this->processParams($this->params);
+        $this->output->next = '/'.$this->module . $suffix . $this->processParams($this->params);
 
         $page = $this->params['page'];
         $this->params['page'] = 0;
-        $this->output->first = '/'.$this->module . $this->processParams($this->params);
+        $this->output->first = '/'.$this->module . $suffix . $this->processParams($this->params);
 
         $page = $this->params['page'];
         $this->params['page'] = $maxPage;
-        $this->output->last = '/'.$this->module . $this->processParams($this->params);
+        $this->output->last = '/'.$this->module . $suffix . $this->processParams($this->params);
     }
 }
