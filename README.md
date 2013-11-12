@@ -75,7 +75,7 @@ DONE
 Sample
 ----------------
 
-Results of: curl -X OPTIONS http://localhost/web2project-slim/projects
+Results of: curl -X OPTIONS http://localhost/web2project-slim/projects | python -mjson.tool
 ```json
 {
     "actions": {
